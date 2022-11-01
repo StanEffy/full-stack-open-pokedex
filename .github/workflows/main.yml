@@ -16,3 +16,4 @@ jobs:
           heroku_app_name: "stanny-pokedex"
           heroku_email: "holydonk@gmail.com"
           healthcheck: "https://stanny-pokedex.herokuapp.com/health"
+          rollbackonhealthcheckfailed: true
