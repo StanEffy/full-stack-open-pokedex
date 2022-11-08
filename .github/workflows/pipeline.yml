@@ -31,8 +31,7 @@ jobs:
           start: npm run start-prod
           wait-on: http://localhost:5000
       - name: deploy
-        if: ${{ github.ref == 'refs/heads/master' }} && !contains(github.event.head_commit.message, '#skip')
-#        uses: actions/checkout@v2
+        if: ${{ github.event_name == 'push' }} && !contains(github.event.head_commit.message, '#skip')
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
@@ -40,8 +39,13 @@ jobs:
           heroku_email: "holydonk@gmail.com"
           healthcheck: "https://stanny-pokedex.herokuapp.com/health"
           rollbackonhealthcheckfailed: true
+
+  tag_release:
+    needs: [ simple_deployment_pipeline ]
+    runs-on: ubuntu-latest
+    steps:
       - name: Bump version and push tag
-        if: ${{ github.ref == 'refs/heads/master' }} && !contains(github.event.head_commit.message, '#skip')
+        if: ${{ github.event_name == 'push' }} && !contains(github.event.head_commit.message, '#skip')
         uses: anothrNick/github-tag-action@eca2b69f9e2c24be7decccd0f15fdb1ea5906598
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
