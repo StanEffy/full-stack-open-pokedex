@@ -60,8 +60,9 @@ jobs:
     steps:
       - name: Discord Webhook Notify
         uses: rjstone/discord-webhook-notify@v1.0.4
-        if: ${{ success() }}
         with:
+          severity: info
+          details: Test Succeeded!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
 
