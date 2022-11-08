@@ -10,6 +10,7 @@ on:
     types: [ opened, synchronize ]
 
 jobs:
+  if: ${{ github.ref == 'refs/heads/master' }}
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
     steps:
